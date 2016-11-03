@@ -2,7 +2,7 @@ package readingFromFile;
 
 import java.io.*;
 import java.util.*;
-
+import java.nio.*;
 
 
 public class readTxt {	
@@ -14,17 +14,18 @@ public class readTxt {
 
 
 
-public static void main(String[] args) {
+public static void main(String[] args) throws IOException {
 	
 	
 	readFile1();
 	readFile2();
 	readFile3();
 	readFile4();
+	convertToBytes(args);
 }
 	
 	
-	public static void readFile1 (){
+	public static List<String> readFile1 (){
     List<String> words = new ArrayList<String>();
     File file1 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file1.txt");
     //2. Read a file line by line and add file words to words array.
@@ -53,10 +54,11 @@ public static void main(String[] args) {
     
     }
     System.out.println(ar);
+    return ar;
 	}
 	
 	
-    public static void readFile2(){
+    public static List<String> readFile2(){
     List<String> words1 = new ArrayList<String>();
     File file2 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file2.txt");
     //2. Read a file line by line and add file words to words array.
@@ -85,10 +87,11 @@ public static void main(String[] args) {
     
     }
     System.out.println(ar2);
+    return ar2;
     }
     
     
-    public static void readFile3(){
+    public static List<String> readFile3(){
     List<String> words2 = new ArrayList<String>();
     File file3 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file3.txt");
     //2. Read a file line by line and add file words to words array.
@@ -117,9 +120,10 @@ public static void main(String[] args) {
     
     }
     System.out.println(ar3);
+    return ar3;
     }
     
-    public static void readFile4(){
+    public static List<String> readFile4(){
     List<String> words3 = new ArrayList<String>();
     File file4 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file4.txt");
     //2. Read a file line by line and add file words to words array.
@@ -148,7 +152,21 @@ public static void main(String[] args) {
     
     }
     System.out.println(ar4);
+    
+    return ar4;
+    
     }
+     static byte[] convertToBytes(Object ar4, Object ar3, Object ar2, Object ar) throws IOException {
+        try (ByteArrayOutputStream serial = new ByteArrayOutputStream();
+            ObjectOutput out = new ObjectOutputStream(serial)) {
+            out.writeObject(ar4);
+            out.writeObject(ar3);
+            out/
+            return serial.toByteArray();
+        } 
+    } 
+    
+    
     
 }
 
