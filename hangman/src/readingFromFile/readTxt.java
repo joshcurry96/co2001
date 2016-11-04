@@ -21,9 +21,12 @@ public static void main(String[] args) throws IOException {
 	readFile2();
 	readFile3();
 	readFile4();
-	convertToBytes(args);
+	serialiseArray();
 }
 	
+   public static void readParallel(){
+	   
+   }
 	
 	public static List<String> readFile1 (){
     List<String> words = new ArrayList<String>();
@@ -156,15 +159,16 @@ public static void main(String[] args) throws IOException {
     return ar4;
     
     }
-     static byte[] convertToBytes(Object ar4, Object ar3, Object ar2, Object ar) throws IOException {
-        try (ByteArrayOutputStream serial = new ByteArrayOutputStream();
-            ObjectOutput out = new ObjectOutputStream(serial)) {
-            out.writeObject(ar4);
-            out.writeObject(ar3);
-            out/
-            return serial.toByteArray();
-        } 
-    } 
+    public static void serialiseArray() throws IOException{
+    	File Output = new File("OutputArray.bin");
+    	try(FileOutputStream c = new FileOutputStream(Output); 
+    			ObjectOutputStream p = new ObjectOutputStream(c)){
+    				p.writeObject(ar);
+    				p.writeObject(ar2);
+    				p.writeObject(ar3);
+    				p.writeObject(ar4);
+    			}
+    }
     
     
     
