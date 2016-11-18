@@ -5,28 +5,36 @@ import java.util.*;
 import java.nio.*;
 
 
-public class readTxt {	
+public class readTxt implements Runnable{	
 	
 	static List<String> ar = new ArrayList<String>();
 	static List<String> ar2 = new ArrayList<String>();
 	static List<String> ar3 = new ArrayList<String>(); 
 	static List<String> ar4 = new ArrayList<String>();
-
+    public static boolean parallel = false;
 
 
 public static void main(String[] args) throws IOException {
-	
-	
-	readFile1();
-	readFile2();
-	readFile3();
-	readFile4();
-	serialiseArray();
+	if (parallel == true){		
+	  method1.run();
+	  method2.run();
+	  method3.run();
+	  method4.run();
+	  method5.run();
+	}else{
+		readFile1();
+		readFile2();
+		readFile3();
+		readFile4();
+		serialiseArray();
+	}
+	  
 }
 	
-   public static void readParallel(){
-	   
-   }
+
+
+	
+	
 	
 	public static List<String> readFile1 (){
     List<String> words = new ArrayList<String>();
@@ -169,8 +177,35 @@ public static void main(String[] args) throws IOException {
     				p.writeObject(ar4);
     			}
     }
-    
-    
-    
-}
 
+static Runnable method1 = new Runnable(){
+	public void run(){
+		readFile1();
+	}
+};
+static Runnable method2 = new Runnable(){
+	public void run(){
+		readFile2();
+	}
+};
+static Runnable method3 = new Runnable(){
+	public void run(){
+		readFile3();
+	}
+};
+static Runnable method4 = new Runnable(){
+	public void run(){
+		readFile4();
+	}
+};
+static Runnable method5 = new Runnable(){
+	public void run(){
+		try {
+			serialiseArray();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+};
+}
