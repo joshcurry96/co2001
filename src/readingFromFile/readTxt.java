@@ -2,49 +2,83 @@ package readingFromFile;
 
 import java.io.*;
 import java.util.*;
+
+//import readingFromFile.hangman.Letter;
+
 import java.nio.*;
 
 
 public class readTxt implements Runnable{	
 	
-	static List<String> ar = new ArrayList<String>();
-	static List<String> ar2 = new ArrayList<String>();
-	static List<String> ar3 = new ArrayList<String>(); 
-	static List<String> ar4 = new ArrayList<String>();
-    public static boolean parallel = false;
+	private static List<String> ar = new ArrayList<String>();
+	private String words;
+ 
+    private static boolean parallel;
+    
 
+    public readTxt(){
+	/*try (InputStream in = getClass().getResourceAsStream("/s_home/jc615/Year2/co2001/mini - project/Files/file1.txt");
+			BufferedReader bf = new BufferedReader(new InputStreamReader(in))){
+		
+		String line = "";
+		while ((line = bf.readLine()) != null)
+			ar.add(line);
+	}*/
+	File file1 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file1.txt");
+	
+    try (BufferedReader br = new BufferedReader(new FileReader(file1))) {
+        String sCurrentLine ="";
+        while ((sCurrentLine = br.readLine()) != null) {
 
-public static void main(String[] args) throws IOException {
-	if (parallel == true){		
-	  method1.run();
-	  method2.run();
-	  method3.run();
-	  method4.run();
-	  method5.run();
-	}else{
-		readFile1();
-		readFile2();
-		readFile3();
-		readFile4();
-		serialiseArray();
+            ar.add(sCurrentLine);
+        }
+    }
+	catch (Exception e) {
+		System.out.println("Couldnt find file: " + file1);
+		System.out.println("Error message: " + e.getMessage());
 	}
-	  
+	
 }
+ public String getRandomWord(){
 	
+	 if (ar.isEmpty()) return "No Data";
+	 for (int j = 0; j < 50; j++){
+	 words = ar.get((int)(Math.random()*ar.size()));
+	 }
+	 //System.out.println(words);
+	 System.out.println(words);
+	 return words;
+	
+	 
+ }
+ public String parralel(){
+	 Thread thread = new Thread(getRandomWord());
+	 thread.start();
+	 return words;
+ }
 
+ public static void serialiseArray() throws IOException{
+ 	try(FileOutputStream c = new FileOutputStream("OutputArray.bin"); 
+ 			ObjectOutputStream p = new ObjectOutputStream(c)){
+ 				p.writeObject(ar);
+ 			}
+ }
+ 
 
+@Override
+public void run() {
+	// TODO Auto-generated method stub
 	
-	
-	
-	public static List<String> readFile1 (){
+}
+    
+/*public static List<String> readFile1 (){
     List<String> words = new ArrayList<String>();
     File file1 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file1.txt");
-    //2. Read a file line by line and add file words to words array.
     try (BufferedReader br = new BufferedReader(new FileReader(file1))) {
-        String sCurrentLine;
+        String sCurrentLine ="";
         while ((sCurrentLine = br.readLine()) != null) {
             words.add(sCurrentLine);
-            //System.out.println(words);
+   
         }
 
         
@@ -59,7 +93,7 @@ public static void main(String[] args) throws IOException {
     
   
     String word = words.get(randomNumber);
-   // System.out.println(word);
+ 
     
     ar.add(word);
     
@@ -67,17 +101,17 @@ public static void main(String[] args) throws IOException {
     System.out.println(ar);
     return ar;
 	}
-	
+	/*
 	
     public static List<String> readFile2(){
     List<String> words1 = new ArrayList<String>();
     File file2 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file2.txt");
-    //2. Read a file line by line and add file words to words array.
+   
     try (BufferedReader br = new BufferedReader(new FileReader(file2))) {
-        String sCurrentLine;
+        String sCurrentLine = "";
         while ((sCurrentLine = br.readLine()) != null) {
             words1.add(sCurrentLine);
-            //System.out.println(words);
+            
         }
 
         
@@ -92,7 +126,7 @@ public static void main(String[] args) throws IOException {
     
   
     String word = words1.get(randomNumber);
-   // System.out.println(word);
+
     
     ar2.add(word);
     
@@ -105,12 +139,12 @@ public static void main(String[] args) throws IOException {
     public static List<String> readFile3(){
     List<String> words2 = new ArrayList<String>();
     File file3 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file3.txt");
-    //2. Read a file line by line and add file words to words array.
+
     try (BufferedReader br = new BufferedReader(new FileReader(file3))) {
-        String sCurrentLine;
+        String sCurrentLine = "";
         while ((sCurrentLine = br.readLine()) != null) {
             words2.add(sCurrentLine);
-            //System.out.println(words);
+          
         }
 
         
@@ -125,7 +159,7 @@ public static void main(String[] args) throws IOException {
     
   
     String word = words2.get(randomNumber);
-   // System.out.println(word);
+ 
     
     ar3.add(word);
     
@@ -137,9 +171,9 @@ public static void main(String[] args) throws IOException {
     public static List<String> readFile4(){
     List<String> words3 = new ArrayList<String>();
     File file4 = new File("/s_home/jc615/Year2/co2001/mini - project/Files/file4.txt");
-    //2. Read a file line by line and add file words to words array.
+   
     try (BufferedReader br = new BufferedReader(new FileReader(file4))) {
-        String sCurrentLine;
+        String sCurrentLine = "";
         while ((sCurrentLine = br.readLine()) != null) {
             words3.add(sCurrentLine);
             //System.out.println(words);
@@ -177,29 +211,53 @@ public static void main(String[] args) throws IOException {
     				p.writeObject(ar4);
     			}
     }
+    
+    public String getRandomWord(){ 
+    	if (ar.isEmpty()) return "No Data";
+    	return ar.get((int)(Math.random()*ar.size()));
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-static Runnable method1 = new Runnable(){
-	public void run(){
+@Override
+public void run() {
+	readFile1();
+	readFile2();
+	readFile3();
+	readFile4();
+	try {
+		serialiseArray();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+}
+
+public static void setBoolean(boolean p){
+	parallel = p;
+}
+public boolean getBoolean(){
+	return parallel;
+}
+
+public static void paraOrSequential(){
+	if(readTxt.parallel = true){
+		(new Thread(new readTxt())).start(); 
+	}
+	if(readTxt.parallel = false){
 		readFile1();
-	}
-};
-static Runnable method2 = new Runnable(){
-	public void run(){
 		readFile2();
-	}
-};
-static Runnable method3 = new Runnable(){
-	public void run(){
 		readFile3();
-	}
-};
-static Runnable method4 = new Runnable(){
-	public void run(){
 		readFile4();
-	}
-};
-static Runnable method5 = new Runnable(){
-	public void run(){
 		try {
 			serialiseArray();
 		} catch (IOException e) {
@@ -207,5 +265,9 @@ static Runnable method5 = new Runnable(){
 			e.printStackTrace();
 		}
 	}
-};
+}
+
+
+*/
+
 }
